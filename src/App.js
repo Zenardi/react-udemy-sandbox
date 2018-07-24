@@ -67,7 +67,8 @@ class App extends Component {
     });
 
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
@@ -90,13 +91,22 @@ class App extends Component {
           })}
         </div>
       );
+      style.backgroundColor = 'red';
+      
     }
 
+    const classes =[];
+    if(this.state.persons.length <=2){
+      classes.push('red');
+    }
+    if(this.state.persons.length <=1){
+      classes.push('bold');
+    }
 
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
-        <p>This is really working!</p>
+        <p className={classes.join(' ')}>This is really working!</p>
         <button
           style={style}
           onClick={this.togglePersonHandler}>Toggle Persons</button>
@@ -107,9 +117,10 @@ class App extends Component {
         <Validation inputlenght={this.state.userInput.length} />
         {charList}
       </div>
+
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
-export default App;
+export default (App);
