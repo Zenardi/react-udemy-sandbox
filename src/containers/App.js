@@ -4,7 +4,9 @@ import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
-  state = {
+constructor(props){
+  super(props);
+  this.state = {
     persons: [
       { id: 'ads', name: 'Max', age: 28 },
       { id: 'agf', name: 'Manu', age: 29 },
@@ -14,6 +16,7 @@ class App extends Component {
     showPersons: false,
     userInput: ''
   }
+}
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.find(p => {
@@ -70,7 +73,8 @@ class App extends Component {
 
     return (
       <div className={classes.App}>
-        {<Cockpit showPersons={this.state.showPersons} 
+        {<Cockpit appTitle = {this.props.title}
+                  showPersons={this.state.showPersons} 
                   persons={this.state.persons}
                   clicked={this.togglePersonHandler}/>}
         {persons}
