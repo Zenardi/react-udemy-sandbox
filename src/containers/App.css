@@ -29,7 +29,7 @@
 
 }
 
-App button.red:hover{
+.App button.red:hover{
   background-color: salmon;
   color: black;
 }
