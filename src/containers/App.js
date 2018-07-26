@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import withClass from '../hoc/withClass'
+import Auxiliary from '../hoc/Auxiliary';
 
-class App extends Component {
+class App extends PureComponent {
 constructor(props){
   super(props);
   this.state = {
@@ -18,6 +20,9 @@ constructor(props){
   }
 }
 
+shouldComponentUpdate(nextProps, nextState){
+  return true;
+}
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.find(p => {
       return p.id === id;
@@ -72,17 +77,18 @@ constructor(props){
     }
 
     return (
-      <div className={classes.App}>
+      <Auxiliary classes = {classes.App}>
+        <button onClick={() => {this.setState({showPersons: true})}}>Show Persons</button>
         {<Cockpit appTitle = {this.props.title}
                   showPersons={this.state.showPersons} 
                   persons={this.state.persons}
                   clicked={this.togglePersonHandler}/>}
         {persons}
-      </div>
+      </Auxiliary>
 
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
   }
 }
 
-export default (App);
+export default withClass(App, classes.App);

@@ -1,7 +1,11 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import Person from '../Persons/Person/Person'
 
-class Persons extends Component{
+class Persons extends PureComponent{
+shouldComponentUpdate(nextProps, nextState){
+    return true;
+}
+
     render(){
         return this.props.persons.map((person, index) => {
                 return <Person
