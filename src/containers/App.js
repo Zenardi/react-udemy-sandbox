@@ -5,6 +5,8 @@ import Cockpit from '../components/Cockpit/Cockpit';
 import withClass from '../hoc/withClass'
 import Auxiliary from '../hoc/Auxiliary';
 
+export const AuthContext = React.createContext(false);
+
 class App extends PureComponent {
 constructor(props){
   super(props);
@@ -16,9 +18,11 @@ constructor(props){
     ],
     otherState: 'some other value',
     showPersons: false,
-    userInput: ''
+    toggleClicked: 0,
+    authenticated: false
   }
 }
+
 
 shouldComponentUpdate(nextProps, nextState){
   return true;
@@ -52,7 +56,13 @@ shouldComponentUpdate(nextProps, nextState){
 
   togglePersonHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({ showPersons: !doesShow });
+    this.setState( (prevState, props) =>
+      { 
+        return{
+          showPersons: !doesShow, 
+          toggleClicked: prevState.toggleClicked + 1
+        }
+    });
   }
 
 
@@ -67,12 +77,20 @@ shouldComponentUpdate(nextProps, nextState){
     this.setState({ userInput: updatedText });
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true});
+  }
+
   render() {
     let persons = null;
 
     if (this.state.showPersons) {
       persons = (
-          <Persons persons={this.state.persons} clicked={this.deletePersonHandler} changed={this.nameChangedHandler}></Persons>
+          <Persons 
+             persons={this.state.persons}
+             clicked={this.deletePersonHandler} 
+             changed={this.nameChangedHandler}>
+          </Persons>
       );
     }
 
@@ -82,8 +100,11 @@ shouldComponentUpdate(nextProps, nextState){
         {<Cockpit appTitle = {this.props.title}
                   showPersons={this.state.showPersons} 
                   persons={this.state.persons}
+                  login={this.loginHandler}
                   clicked={this.togglePersonHandler}/>}
-        {persons}
+        
+        <AuthContext.Provider value={this.state.authenticated}>{persons}</AuthContext.Provider>
+        
       </Auxiliary>
 
     );
